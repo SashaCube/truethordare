@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_dimen">10dp</dimen>
+    <dimen name="small_dimen">5dp</dimen>
+    <dimen name="large_dimen">60dp</dimen>
+    <dimen name="large_text_size">20sp</dimen>
+    <dimen name="one_dp">1dp</dimen>
+    <dimen name="nav_btn_default">36dp</dimen>
+</resources>

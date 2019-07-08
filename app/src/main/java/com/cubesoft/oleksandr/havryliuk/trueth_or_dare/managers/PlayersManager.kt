@@ -11,10 +11,10 @@ class PlayersManager(
     }
 
     fun add(name: String) {
-        getPlayerByName(name)?.let { players.add(it) }
+        players.add(Player(name))
     }
 
-    fun remove(player: Player): Boolean {
+    fun remove(player: Player?): Boolean {
         return players.remove(player)
     }
 
@@ -32,16 +32,12 @@ class PlayersManager(
     }
 
     fun getRandomUser(): Player? {
-        return if (players.isNotEmpty()) players[Random().nextInt(players.size)] else getEmptyUser()
+        return players[Random().nextInt(players.size)]
     }
 
-    fun getEmptyUser(): Player {
-        return Player("player")
-    }
-
-    fun getAllPlayers(): List<Player>{
-       if(players.isEmpty())
-            players = mutableListOf(getEmptyUser())
+    fun getAllPlayers(): List<Player> {
+        if (players.isEmpty())
+            players = mutableListOf()
         return players
     }
 

@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">trueth-or-dare</string>
+    <string name="app_name">Правда чи Дія</string>
+    <string name="add_player_title">Додати нового гравця</string>
+    <string name="delete_player_message">Видалити гравця %1$s</string>
+    <string name="add_player_message">Введіть ім\'я:</string>
+    <string name="edit_players_label">Гравці</string>
+    <string name="add_player_cancel_label">Скасувати</string>
+    <string name="add_player_submit_label">Додати</string>
+    <string name="delete_player_cancel_label">Скасувати</string>
+    <string name="delete_player_submit_label">Видалити</string>
+    <string name="max_amount_of_player">Max amount of  players 10</string>
+    <string name="default_player_name">Гравець</string>
+
+
 </resources>
