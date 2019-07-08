@@ -32,7 +32,7 @@ class EditPlayersActivity : AppCompatActivity(), EditPlayersContract.IEditPlayer
         initView()
         presenter = EditPlayersPresenter(
             this, Repository(mutableListOf()),
-            PlayersManager(mutableListOf())
+            PlayersManager.instance()
         )
     }
 

@@ -8,7 +8,7 @@
     <string name="add_player_submit_label">Додати</string>
     <string name="delete_player_cancel_label">Скасувати</string>
     <string name="delete_player_submit_label">Видалити</string>
-    <string name="max_amount_of_player">Max amount of  players 10</string>
+    <string name="max_amount_of_player">Максимальна кількість гравців 10</string>
     <string name="default_player_name">Гравець</string>
 
 

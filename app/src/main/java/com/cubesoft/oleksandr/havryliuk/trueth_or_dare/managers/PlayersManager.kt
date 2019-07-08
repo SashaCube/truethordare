@@ -4,8 +4,17 @@ import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Player
 import java.util.*
 
 class PlayersManager(
-    var players: MutableList<Player>
+    var players: MutableList<Player> = mutableListOf()
 ) {
+    companion object {
+        private var instance: PlayersManager? = null
+        fun instance() = instance!!
+    }
+
+    init {
+        instance = this
+    }
+
     fun add(player: Player) {
         players.add(player)
     }
@@ -39,6 +48,15 @@ class PlayersManager(
         if (players.isEmpty())
             players = mutableListOf()
         return players
+    }
+
+    fun getAllNames(): List<String> {
+        var list = mutableListOf<String>()
+        for (p in players) {
+            list.add(p.name)
+        }
+
+        return list
     }
 
     private fun getPlayerByName(name: String): Player? {
