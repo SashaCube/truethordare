@@ -43,7 +43,9 @@
                 android:id="@+id/info_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_x_button"
+                android:clickable="true"
+                android:onClick="onSpin"
+                android:src="@drawable/ic_arrow_back"
                 android:padding="@dimen/default_dimen"
         />
 

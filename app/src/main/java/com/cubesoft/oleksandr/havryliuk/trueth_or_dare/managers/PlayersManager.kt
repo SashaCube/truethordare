@@ -40,8 +40,8 @@ class PlayersManager(
         return players.size
     }
 
-    fun getRandomUser(): Player? {
-        return players[Random().nextInt(players.size)]
+    fun getRandomPlayer(): Player? {
+        return if (players.size > 0) players[Random().nextInt(players.size)] else null
     }
 
     fun getAllPlayers(): List<Player> {
