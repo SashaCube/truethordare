@@ -15,7 +15,5 @@ interface EditPlayersContract {
         fun deletePlayer(name: String)
 
         fun addPlayer(name: String)
-
-        fun onDestroy()
     }
 }

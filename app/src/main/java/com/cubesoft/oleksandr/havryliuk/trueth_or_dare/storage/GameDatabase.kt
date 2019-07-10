@@ -4,6 +4,7 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
+import android.util.Log
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.dao.ActionDao
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.dao.PlayerDao
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.dao.QuestionDao
@@ -17,7 +18,6 @@ abstract class GameDatabase : RoomDatabase() {
     abstract fun playerDao(): PlayerDao
     abstract fun actionDao(): ActionDao
     abstract fun questionDao(): QuestionDao
-
 
     companion object {
         @Volatile
@@ -35,13 +35,24 @@ abstract class GameDatabase : RoomDatabase() {
                     GameDatabase::class.java,
                     "Game.db"
                 ).build()
+
                 INSTANCE = instance
                 return instance
             }
         }
 
-        fun destroyInstance(){
+        fun destroyInstance() {
             INSTANCE = null
         }
     }
+}
+
+fun populateActions(dao: ActionDao, actions: List<String>) {
+    Log.i("PopulateActions", "populate ${actions.size} action")
+    for (str in actions) dao.insert(Action(null, str))
+}
+
+fun populateQuestions(dao: QuestionDao, questions: List<String>) {
+    Log.i("PopulateQuestions", "populate ${questions.size} question")
+    for (str in questions) dao.insert(Question(null, str))
 }

@@ -17,7 +17,23 @@
     <string name="action_for">Дія для %1$s</string>
     <string name="truth_for">Правда для %1$s</string>
     <string name="done">Готово</string>
+    <string name="add_one_player_to_start">Щоб почати, додайте хоча б одного гравця</string>
 
 
+    <string-array name="default_questions">
+        <item>Ти любиш екстрим?</item>
+        <item>Як часто міняєш дівчат?</item>
+        <item>Як ставишся до сусіда (сусідки зліва)?</item>
+        <item>Любиш спати голяка?</item>
+        <item>Подобаються активні та цілеспрямовані дівчата?</item>
+    </string-array>
+
+    <string-array name="default_actions">
+        <item>Зображує все, що тобі скаже інший гравець протягом декількох хвилин.</item>
+        <item>Танцюй брейк-данс протягом 5 хвилин.</item>
+        <item>Прийшли мені свою фотку в нижній білизні.</item>
+        <item>Намалюй монобров на своєму обличчі.</item>
+        <item>Давай «5» кожному, кого побачиш в наступні 5 хвилин.</item>
+    </string-array>
 
 </resources>

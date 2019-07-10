@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.DbWorkerThread
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.adapter.PlayersAdapter
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog.AddPlayerDialog
@@ -17,6 +18,7 @@ class EditPlayersActivity : AppCompatActivity(), EditPlayersContract.IEditPlayer
     PlayersAdapter.OnItemClickListener {
 
     private var players: List<Player>? = null
+    private lateinit var mDbWorkerThread: DbWorkerThread
 
     override fun onItemClickListener(v: View, pos: Int) {
         players?.get(pos)?.name?.let { displaDeletePlayerDialog(v, it) }
@@ -28,9 +30,13 @@ class EditPlayersActivity : AppCompatActivity(), EditPlayersContract.IEditPlayer
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_players)
 
+        mDbWorkerThread = DbWorkerThread("dbWorkerThread_edit")
+        mDbWorkerThread.start()
+
         initView()
         presenter = EditPlayersPresenter(
-            this, GameDatabase.getInstance(applicationContext)
+            this, GameDatabase.getInstance(this),
+            mDbWorkerThread
         )
     }
 
@@ -103,7 +109,7 @@ class EditPlayersActivity : AppCompatActivity(), EditPlayersContract.IEditPlayer
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.onDestroy()
+        mDbWorkerThread.quit()
     }
 
     fun exit(view: View) = finish()
