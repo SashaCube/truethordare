@@ -8,8 +8,7 @@ import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.adapter.PlayersAdapter
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog.AddPlayerDialog
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog.DeletePlayerDialog
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.managers.PlayersManager
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.Repository
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.GameDatabase
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Player
 import kotlinx.android.synthetic.main.activity_edit_players.*
 import org.jetbrains.anko.*
@@ -31,8 +30,7 @@ class EditPlayersActivity : AppCompatActivity(), EditPlayersContract.IEditPlayer
 
         initView()
         presenter = EditPlayersPresenter(
-            this, Repository(mutableListOf()),
-            PlayersManager.instance()
+            this, GameDatabase.getInstance(applicationContext)
         )
     }
 
@@ -70,7 +68,7 @@ class EditPlayersActivity : AppCompatActivity(), EditPlayersContract.IEditPlayer
                 val name = addPlayerDialog!!.newPlayerName.text.toString()
 
                 if (name != "")
-                    presenter.addPlayer(Player(name))
+                    presenter.addPlayer(name)
 
                 addPlayerDialog!!.dialog.dismiss()
             }
@@ -94,13 +92,18 @@ class EditPlayersActivity : AppCompatActivity(), EditPlayersContract.IEditPlayer
         }
 
         deletePlayerDialog?.okButton?.setOnClickListener {
-            presenter.deletePlayer(Player(playerName))
+            presenter.deletePlayer(playerName)
             deletePlayerDialog!!.dialog.dismiss()
         }
 
         deletePlayerDialog?.cancelButton?.setOnClickListener {
             deletePlayerDialog!!.dialog.dismiss()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
     }
 
     fun exit(view: View) = finish()

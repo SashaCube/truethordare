@@ -12,8 +12,10 @@ interface EditPlayersContract {
 
     interface IEditPlayersPresenter {
 
-        fun deletePlayer(player: Player?)
+        fun deletePlayer(name: String)
 
-        fun addPlayer(player: Player)
+        fun addPlayer(name: String)
+
+        fun onDestroy()
     }
 }

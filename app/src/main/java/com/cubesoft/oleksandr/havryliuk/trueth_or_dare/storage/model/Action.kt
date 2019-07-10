@@ -4,9 +4,9 @@ import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 
-@Entity(tableName = "player_table")
-data class Player(
+@Entity(tableName = "action_table")
+data class Action(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id") var id: Long?,
-    @ColumnInfo(name = "name") var name: String
+    @ColumnInfo(name = "id") val id: Long?,
+    @ColumnInfo(name = "action") var action: String
 )
