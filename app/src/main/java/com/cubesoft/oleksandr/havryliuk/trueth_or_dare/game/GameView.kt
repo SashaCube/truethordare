@@ -90,7 +90,7 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
         canvas.save()
         canvas.rotate(angel, x, y)
-        canvas.drawText(text, x + 200f, y, paint)
+        canvas.drawText(text, x + 250f, y, paint)
         canvas.restore()
     }
 

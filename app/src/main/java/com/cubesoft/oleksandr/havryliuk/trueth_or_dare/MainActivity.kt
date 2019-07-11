@@ -6,6 +6,9 @@ import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.RotateAnimation
+import android.widget.ImageView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.EditPlayersActivity
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.GameView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.DbWorkerThread
@@ -18,8 +21,10 @@ import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.populateQuestions
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.find
 import org.jetbrains.anko.yesButton
+import java.util.*
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), Animation.AnimationListener {
 
     private var mDb: GameDatabase? = null
 
@@ -32,6 +37,9 @@ class MainActivity : AppCompatActivity() {
     private var questions: List<Question> = listOf()
     private var players: List<Player> = listOf()
 
+    private lateinit var mBottleImageView: ImageView
+    private var lastAngle = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -42,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         mDb = GameDatabase.getInstance(this)
 
         mGameView = find(R.id.game_view)
-
+        mBottleImageView = find(R.id.bottle_image_view)
         fetchDataFromDb()
     }
 
@@ -64,6 +72,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun fetchDataFromDb() {
         val task = Runnable {
+            mDb?.actionDao()?.deleteAll()
+            mDb?.questionDao()?.deleteAll()
+
             var actions = mDb?.actionDao()?.all
             var questions = mDb?.questionDao()?.all
 
@@ -110,25 +121,6 @@ class MainActivity : AppCompatActivity() {
 
     fun editPlayers(view: View) = startActivity(Intent(this, EditPlayersActivity::class.java))
 
-    fun onSpin(view: View) {
-
-        if (players.isEmpty()) {
-            alert(R.string.add_one_player_to_start) {
-                yesButton { }
-            }.show()
-        } else {
-            val player = players.getRandom()!!
-
-            alert(
-                getString(R.string.truth_or_dire), getString(R.string.player_choose, player.name)
-            ) {
-                positiveButton(R.string.action) { actionAlert(player) }
-                negativeButton(R.string.truth) { truthAlert(player) }
-            }.show()
-
-        }
-    }
-
     private fun actionAlert(player: Player) {
         actions.getRandom()?.action?.let {
             alert(it, player.name) {
@@ -145,6 +137,67 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun exit(view: View) {
+        finish()
+    }
+
+    fun onBottleClick(view: View) {
+        if (players.isEmpty())
+            alert(R.string.add_one_player_to_start) {
+                yesButton { }
+            }.show()
+        else
+            spinBottle()
+    }
+
+    fun spinBottle() {
+        val angle = Random().nextInt(3600 - 360) + 90 + (360 - lastAngle.plus(90).rem(360))
+
+        val pivotX = mBottleImageView.width.div(2).toFloat()
+        val pivotY = mBottleImageView.height.div(2).toFloat()
+
+        val animation =
+            RotateAnimation((if (lastAngle == -1) 0 else lastAngle.plus(90).rem(360)).toFloat(),
+                angle.toFloat(), pivotX, pivotY)
+        lastAngle = angle.minus(90).rem(360)
+        animation.duration = 2500
+        animation.fillAfter = true
+
+        animation.setAnimationListener(this)
+        mBottleImageView.startAnimation(animation)
+    }
+
+    private fun resetBottle() {
+        val pivotX = mBottleImageView.width.div(2).toFloat()
+        val pivotY = mBottleImageView.height.div(2).toFloat()
+
+        val animation = RotateAnimation((if (lastAngle == -1) 0 else lastAngle).toFloat(), 0f, pivotX, pivotY)
+        lastAngle = -1
+        animation.duration = 2000
+        animation.fillAfter = true
+
+        mBottleImageView.startAnimation(animation)
+    }
+
+    override fun onAnimationRepeat(animation: Animation?) {
+    }
+
+    override fun onAnimationEnd(animation: Animation?) {
+        val index = lastAngle.div(360.div(players.size))
+        val player = players[index]
+
+        alert(
+            getString(R.string.truth_or_dire), getString(R.string.player_choose, player.name)
+        ) {
+            positiveButton(R.string.action) { actionAlert(player) }
+            negativeButton(R.string.truth) { truthAlert(player) }
+        }.show()
+
+    }
+
+    override fun onAnimationStart(animation: Animation?) {
+    }
+
     override fun onStart() {
         super.onStart()
         fetchPlayersFromDb()
@@ -152,6 +205,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         mDbWorkerThread.quit()
+        GameDatabase.destroyInstance()
         super.onDestroy()
     }
 }

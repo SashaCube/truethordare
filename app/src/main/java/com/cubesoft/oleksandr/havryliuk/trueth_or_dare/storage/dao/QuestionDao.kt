@@ -21,4 +21,6 @@ interface QuestionDao {
     @Delete
     fun delete(question: Question)
 
+    @Query("DELETE FROM question_table")
+    fun deleteAll()
 }

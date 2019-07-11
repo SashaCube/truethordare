@@ -3,22 +3,26 @@ package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.DbWorkerThread
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.adapter.PlayersAdapter
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog.AddPlayerDialog
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog.DeletePlayerDialog
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.DbWorkerThread
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.GameDatabase
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Player
-import kotlinx.android.synthetic.main.activity_edit_players.*
 import org.jetbrains.anko.*
 
 class EditPlayersActivity : AppCompatActivity(), EditPlayersContract.IEditPlayersView,
     PlayersAdapter.OnItemClickListener {
 
+    private val MAX_PLAYERS: Int = 10
+
     private var players: List<Player>? = null
     private lateinit var mDbWorkerThread: DbWorkerThread
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: PlayersAdapter
 
     override fun onItemClickListener(v: View, pos: Int) {
         players?.get(pos)?.name?.let { displaDeletePlayerDialog(v, it) }
@@ -41,7 +45,13 @@ class EditPlayersActivity : AppCompatActivity(), EditPlayersContract.IEditPlayer
     }
 
     private fun initView() {
-        recycler_view.layoutManager = LinearLayoutManager(this)
+        recyclerView = find(R.id.recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        adapter = PlayersAdapter()
+        adapter.setOnItemClickListener(this)
+
+        recyclerView.adapter = adapter
     }
 
     override fun showMessage(message: String) {
@@ -50,15 +60,12 @@ class EditPlayersActivity : AppCompatActivity(), EditPlayersContract.IEditPlayer
 
     override fun setPlayers(players: List<Player>) {
         this.players = players
-        val adapter = PlayersAdapter()
-        adapter.setOnItemClickListener(this)
         adapter.setData(players)
-        recycler_view.adapter = adapter
     }
 
     fun displayAddPlayerDialog(view: View) {
 
-        if (players?.size!! >= 10)
+        if (players?.size!! >= MAX_PLAYERS)
             alert(R.string.max_amount_of_player) {
                 yesButton { }
             }.show()

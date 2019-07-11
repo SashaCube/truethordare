@@ -21,4 +21,6 @@ interface ActionDao {
     @Delete
     fun delete(action: Action)
 
+    @Query("DELETE FROM action_table")
+    fun deleteAll()
 }
