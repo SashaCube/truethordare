@@ -150,7 +150,15 @@ class MainActivity : AppCompatActivity(), Animation.AnimationListener {
             spinBottle()
     }
 
-    fun spinBottle() {
+    private fun appearAnimation(){
+        val fadeIn = AlphaAnimation(0f, 1f)
+        fadeIn.interpolator = DecelerateInterpolator() //add this
+        fadeIn.duration = 1000
+
+        (find(R.id.main_layout) as View).animation = fadeIn
+    }
+
+    private fun spinBottle() {
         val angle = Random().nextInt(3600 - 360) + 90 + (360 - lastAngle.plus(90).rem(360))
 
         val pivotX = mBottleImageView.width.div(2).toFloat()
@@ -200,6 +208,7 @@ class MainActivity : AppCompatActivity(), Animation.AnimationListener {
 
     override fun onStart() {
         super.onStart()
+        appearAnimation()
         fetchPlayersFromDb()
     }
 
