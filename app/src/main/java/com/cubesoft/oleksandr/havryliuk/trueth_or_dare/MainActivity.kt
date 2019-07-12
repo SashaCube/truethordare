@@ -6,11 +6,12 @@ import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.RotateAnimation
+import android.view.WindowManager
+import android.view.animation.*
 import android.widget.ImageView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.EditPlayersActivity
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.GameView
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.info.InfoActivity
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.DbWorkerThread
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.GameDatabase
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Action
@@ -43,6 +44,8 @@ class MainActivity : AppCompatActivity(), Animation.AnimationListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         mDbWorkerThread = DbWorkerThread("dbWorkerThread_main")
         mDbWorkerThread.start()
@@ -119,8 +122,6 @@ class MainActivity : AppCompatActivity(), Animation.AnimationListener {
         questions?.let { this.questions = questions }
     }
 
-    fun editPlayers(view: View) = startActivity(Intent(this, EditPlayersActivity::class.java))
-
     private fun actionAlert(player: Player) {
         actions.getRandom()?.action?.let {
             alert(it, player.name) {
@@ -137,9 +138,12 @@ class MainActivity : AppCompatActivity(), Animation.AnimationListener {
         }
     }
 
-    fun exit(view: View) {
-        finish()
-    }
+    fun onEditPlayersClick(view: View) = startActivity(Intent(this, EditPlayersActivity::class.java))
+
+    fun onExitClick(view: View) = finish()
+
+    fun onInfoClick(view: View) = startActivity(Intent(this, InfoActivity::class.java))
+
 
     fun onBottleClick(view: View) {
         if (players.isEmpty())

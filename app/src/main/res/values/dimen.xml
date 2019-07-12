@@ -4,6 +4,7 @@
     <dimen name="small_dimen">5dp</dimen>
     <dimen name="large_dimen">60dp</dimen>
     <dimen name="large_text_size">20sp</dimen>
+    <dimen name="very_large_text_size">25sp</dimen>
     <dimen name="one_dp">1dp</dimen>
     <dimen name="nav_btn_default">36dp</dimen>
 </resources>

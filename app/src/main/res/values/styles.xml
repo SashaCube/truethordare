@@ -8,4 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SimpleText">
+
+    </style>
+
+    <style name="LabelText">
+        <item name="android:textSize">@dimen/large_text_size</item>
+        <item name="android:padding">@dimen/default_dimen</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

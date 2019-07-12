@@ -63,6 +63,7 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         path.addCircle(x, y, radius, Path.Direction.CW)
 
         val paint = Paint()
+        paint.isAntiAlias = true
         paint.color = color
         paint.strokeWidth = 5f
         paint.style = Paint.Style.FILL

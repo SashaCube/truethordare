@@ -7,6 +7,13 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity"
         android:orientation="vertical">
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            style="@style/LabelText"
+            android:textSize="@dimen/very_large_text_size"
+    />
 
     <RelativeLayout
             android:layout_margin="20dp"
@@ -16,7 +23,7 @@
         <com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.GameView
                 android:id="@+id/game_view"
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
+                android:layout_height="450dp"
         />
 
         <ImageView
@@ -42,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/large_dimen"
                 android:src="@drawable/ic_players"
-                android:onClick="editPlayers"
+                android:onClick="onEditPlayersClick"
                 android:clickable="true"
                 android:padding="@dimen/default_dimen"
         />
@@ -51,6 +58,8 @@
                 android:layout_weight="7"
                 android:id="@+id/info_button"
                 android:layout_width="wrap_content"
+                android:clickable="true"
+                android:onClick="onInfoClick"
                 android:layout_height="@dimen/large_dimen"
                 android:src="@drawable/ic_info_black_24dp"
                 android:padding="@dimen/default_dimen"
@@ -60,7 +69,7 @@
                 android:layout_weight="7"
                 android:id="@+id/exit_button"
                 android:clickable="true"
-                android:onClick="exit"
+                android:onClick="onExitClick"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/large_dimen"
                 android:src="@drawable/ic_exit_to_app_black_24dp"

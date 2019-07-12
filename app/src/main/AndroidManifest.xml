@@ -20,6 +20,9 @@
         <activity android:name=".edit.EditPlayersActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".info.InfoActivity"
+                  android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
