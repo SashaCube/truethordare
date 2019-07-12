@@ -64,8 +64,8 @@ class MainActivity : AppCompatActivity(), Animation.AnimationListener {
                 if (players == null || players.isEmpty()) {
                     Log.i("FetchPlayersFromDb_main", "not players")
                 } else {
-                    Log.i("FetchPlayersFromDb_main", "fetch ${players.size} players")
-                    updateDate(players = players)
+                    Log.i("FetchPlayersFromDb_main", "fetch and update ${players.size} players")
+                    players.let { this.players = players }
                     bindDataWithUI()
                 }
             }
@@ -112,12 +112,10 @@ class MainActivity : AppCompatActivity(), Animation.AnimationListener {
     }
 
     private fun updateDate(
-        players: List<Player>? = null,
         actions: List<Action>? = null,
         questions: List<Question>? = null
     ) {
         Log.i("UpdateData_main", "update data")
-        players?.let { this.players = players }
         actions?.let { this.actions = actions }
         questions?.let { this.questions = questions }
     }

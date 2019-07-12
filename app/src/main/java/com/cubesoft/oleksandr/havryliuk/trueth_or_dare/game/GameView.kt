@@ -97,5 +97,6 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     fun setPlayers(players: List<String>) {
         this.players = players as MutableList<String>
+        requestLayout()
     }
 }
