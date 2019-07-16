@@ -11,9 +11,11 @@ import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.adapter.PlayersAdapter
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog.AddPlayerDialog
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog.DeletePlayerDialog
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.log
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.DbWorkerThread
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.GameDatabase
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Player
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.jetbrains.anko.*
 
 class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
@@ -28,6 +30,7 @@ class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PlayersAdapter
     private lateinit var presenter: EditPlayersContract.IEditPlayersPresenter
+    private lateinit var mFirebaseAnalytics: FirebaseAnalytics
 
 
     override fun onItemClickListener(v: View, pos: Int) {
@@ -37,6 +40,8 @@ class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_players)
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         mDbWorkerThread = DbWorkerThread("dbWorkerThread_edit")
         mDbWorkerThread.start()
@@ -57,7 +62,10 @@ class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
 
         recyclerView.adapter = adapter
 
-        find<ImageView>(R.id.back_button_edit).setOnClickListener { finish() }
+        find<ImageView>(R.id.back_button_edit).setOnClickListener {
+            mFirebaseAnalytics.log("OnBackClick", "From EditPlayerActivity to MainActivity")
+            finish()
+        }
         find<FloatingActionButton>(R.id.add_fab).setOnClickListener { displayAddPlayerDialog() }
     }
 
@@ -72,11 +80,12 @@ class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
 
     private fun displayAddPlayerDialog() {
 
-        if (players?.size!! >= MAX_PLAYERS)
+        if (players?.size!! >= MAX_PLAYERS) {
             alert(R.string.max_amount_of_player) {
                 yesButton { }
             }.show()
-        else {
+            mFirebaseAnalytics.log("OnAddPlayerClick", "don't added player because max count is 10")
+        } else {
 
             val addPlayerDialog by lazy {
                 contentView?.let {
@@ -91,10 +100,12 @@ class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
                     presenter.addPlayer(name)
 
                 addPlayerDialog!!.dialog.dismiss()
+                mFirebaseAnalytics.log("OnAddPlayerClick", "add player")
             }
 
             addPlayerDialog?.cancelButton?.setOnClickListener {
                 addPlayerDialog!!.dialog.dismiss()
+                mFirebaseAnalytics.log("OnAddPlayerClick", "dismiss")
             }
         }
     }
@@ -114,10 +125,12 @@ class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
         deletePlayerDialog?.okButton?.setOnClickListener {
             presenter.deletePlayer(playerName)
             deletePlayerDialog!!.dialog.dismiss()
+            mFirebaseAnalytics.log("OnDeletePlayerClick", "delete player")
         }
 
         deletePlayerDialog?.cancelButton?.setOnClickListener {
             deletePlayerDialog!!.dialog.dismiss()
+            mFirebaseAnalytics.log("OnDeletePlayerClick", "dismiss")
         }
     }
 

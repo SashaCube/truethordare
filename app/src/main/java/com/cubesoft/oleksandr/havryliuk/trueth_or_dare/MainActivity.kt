@@ -22,6 +22,7 @@ import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Player
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Question
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.populateActions
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.populateQuestions
+import com.google.firebase.analytics.FirebaseAnalytics
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.find
 import org.jetbrains.anko.yesButton
@@ -43,10 +44,14 @@ class MainActivity : Activity(), Animation.AnimationListener {
 
     private lateinit var mBottleImageView: ImageView
     private var lastAngle = -1
+    private lateinit var mFirebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
@@ -65,20 +70,28 @@ class MainActivity : Activity(), Animation.AnimationListener {
         mGameView = find(R.id.game_view)
         mBottleImageView = find(R.id.bottle_image_view)
 
-        find<ImageView>(R.id.exit_button).setOnClickListener { finish() }
+        find<ImageView>(R.id.exit_button).setOnClickListener {
+            mFirebaseAnalytics.log("OnExitClick")
+            finish()
+        }
         find<ImageView>(R.id.edit_player_button).setOnClickListener {
             startActivity(Intent(this, EditPlayersActivity::class.java))
+            mFirebaseAnalytics.log("OnEditPlayerClick")
         }
         find<ImageView>(R.id.info_button).setOnClickListener {
             startActivity(Intent(this, InfoActivity::class.java))
+            mFirebaseAnalytics.log("OnInfoClick")
         }
         find<ImageView>(R.id.bottle_image_view).setOnClickListener {
-            if (players.isEmpty())
+            if (players.isEmpty()) {
                 alert(R.string.add_one_player_to_start) {
                     yesButton { }
                 }.show()
-            else
+                mFirebaseAnalytics.log("OnBottleClick", "No users")
+            } else {
                 spinBottle()
+                mFirebaseAnalytics.log("OnBottleClick", "Spin bottle")
+            }
         }
     }
 
@@ -147,6 +160,7 @@ class MainActivity : Activity(), Animation.AnimationListener {
             alert(it, player.name) {
                 positiveButton(R.string.done) { }
             }.show()
+            mFirebaseAnalytics.log("ShowAction", "action: $it")
         }
     }
 
@@ -155,6 +169,7 @@ class MainActivity : Activity(), Animation.AnimationListener {
             alert(it, player.name) {
                 positiveButton(R.string.done) { }
             }.show()
+            mFirebaseAnalytics.log("ShowQuestion", "question: $it")
         }
     }
 
@@ -207,8 +222,13 @@ class MainActivity : Activity(), Animation.AnimationListener {
         alert(
             getString(R.string.truth_or_dire), getString(R.string.player_choose, player.name)
         ) {
-            positiveButton(R.string.action) { actionAlert(player) }
-            negativeButton(R.string.truth) { truthAlert(player) }
+            positiveButton(R.string.action) {
+                actionAlert(player)
+                mFirebaseAnalytics.log("AfterSpinChoose", "Action")
+            }
+            negativeButton(R.string.truth) { truthAlert(player)
+                mFirebaseAnalytics.log("AfterSpinChoose", "Question")
+            }
         }.show()
 
     }
