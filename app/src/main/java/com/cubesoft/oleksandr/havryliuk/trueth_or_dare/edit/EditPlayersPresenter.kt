@@ -7,9 +7,9 @@ import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.GameDatabase
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Player
 
 class EditPlayersPresenter(
-    val view: EditPlayersContract.IEditPlayersView,
-    val mDb: GameDatabase,
-    val mDbWorkerThread: DbWorkerThread
+    private val view: EditPlayersContract.IEditPlayersView,
+    private val mDb: GameDatabase,
+    private val mDbWorkerThread: DbWorkerThread
 ) : EditPlayersContract.IEditPlayersPresenter {
 
     private val mUiHandler = Handler()
@@ -36,7 +36,7 @@ class EditPlayersPresenter(
         mDbWorkerThread.postTask(task)
     }
 
-    fun update() {
+    private fun update() {
         val task = Runnable {
             val players = mDb.playerDao().all
             mUiHandler.post {

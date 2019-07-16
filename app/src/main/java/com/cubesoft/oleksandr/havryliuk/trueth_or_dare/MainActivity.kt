@@ -1,13 +1,16 @@
 package com.cubesoft.oleksandr.havryliuk.trueth_or_dare
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.view.animation.*
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.EditPlayersActivity
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.GameView
@@ -25,14 +28,14 @@ import org.jetbrains.anko.yesButton
 import java.util.*
 
 
-class MainActivity : AppCompatActivity(), Animation.AnimationListener {
+class MainActivity : Activity(), Animation.AnimationListener {
 
     private var mDb: GameDatabase? = null
 
     private lateinit var mGameView: GameView
     private lateinit var mDbWorkerThread: DbWorkerThread
 
-    private val mUiHandler = Handler()
+    private lateinit var mUiHandler: Handler
 
     private var actions: List<Action> = listOf()
     private var questions: List<Question> = listOf()
@@ -47,14 +50,36 @@ class MainActivity : AppCompatActivity(), Animation.AnimationListener {
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
+        mUiHandler = Handler()
         mDbWorkerThread = DbWorkerThread("dbWorkerThread_main")
         mDbWorkerThread.start()
 
         mDb = GameDatabase.getInstance(this)
 
+        initView()
+
+        fetchDataFromDb()
+    }
+
+    private fun initView() {
         mGameView = find(R.id.game_view)
         mBottleImageView = find(R.id.bottle_image_view)
-        fetchDataFromDb()
+
+        find<ImageView>(R.id.exit_button).setOnClickListener { finish() }
+        find<ImageView>(R.id.edit_player_button).setOnClickListener {
+            startActivity(Intent(this, EditPlayersActivity::class.java))
+        }
+        find<ImageView>(R.id.info_button).setOnClickListener {
+            startActivity(Intent(this, InfoActivity::class.java))
+        }
+        find<ImageView>(R.id.bottle_image_view).setOnClickListener {
+            if (players.isEmpty())
+                alert(R.string.add_one_player_to_start) {
+                    yesButton { }
+                }.show()
+            else
+                spinBottle()
+        }
     }
 
     private fun fetchPlayersFromDb() {
@@ -75,9 +100,6 @@ class MainActivity : AppCompatActivity(), Animation.AnimationListener {
 
     private fun fetchDataFromDb() {
         val task = Runnable {
-            mDb?.actionDao()?.deleteAll()
-            mDb?.questionDao()?.deleteAll()
-
             var actions = mDb?.actionDao()?.all
             var questions = mDb?.questionDao()?.all
 
@@ -136,23 +158,7 @@ class MainActivity : AppCompatActivity(), Animation.AnimationListener {
         }
     }
 
-    fun onEditPlayersClick(view: View) = startActivity(Intent(this, EditPlayersActivity::class.java))
-
-    fun onExitClick(view: View) = finish()
-
-    fun onInfoClick(view: View) = startActivity(Intent(this, InfoActivity::class.java))
-
-
-    fun onBottleClick(view: View) {
-        if (players.isEmpty())
-            alert(R.string.add_one_player_to_start) {
-                yesButton { }
-            }.show()
-        else
-            spinBottle()
-    }
-
-    private fun appearAnimation(){
+    private fun appearAnimation() {
         val fadeIn = AlphaAnimation(0f, 1f)
         fadeIn.interpolator = DecelerateInterpolator() //add this
         fadeIn.duration = 1000
@@ -167,8 +173,10 @@ class MainActivity : AppCompatActivity(), Animation.AnimationListener {
         val pivotY = mBottleImageView.height.div(2).toFloat()
 
         val animation =
-            RotateAnimation((if (lastAngle == -1) 0 else lastAngle.plus(90).rem(360)).toFloat(),
-                angle.toFloat(), pivotX, pivotY)
+            RotateAnimation(
+                (if (lastAngle == -1) 0 else lastAngle.plus(90).rem(360)).toFloat(),
+                angle.toFloat(), pivotX, pivotY
+            )
         lastAngle = angle.minus(90).rem(360)
         animation.duration = 2500
         animation.fillAfter = true
@@ -215,8 +223,8 @@ class MainActivity : AppCompatActivity(), Animation.AnimationListener {
     }
 
     override fun onDestroy() {
+        super.onDestroy()
         mDbWorkerThread.quit()
         GameDatabase.destroyInstance()
-        super.onDestroy()
     }
 }

@@ -17,11 +17,9 @@
                 android:layout_height="wrap_content">
 
             <ImageView
-                    android:layout_margin="@dimen/small_dimen"
-                    android:id="@+id/back_button"
-                    android:clickable="true"
-                    android:onClick="exit"
+                    android:id="@+id/back_button_info"
                     android:src="@drawable/ic_arrow_back"
+                    android:layout_margin="@dimen/small_dimen"
                     android:layout_width="@dimen/nav_btn_default"
                     android:layout_height="@dimen/nav_btn_default"/>
 
@@ -42,7 +40,6 @@
                 android:layout_height="@dimen/one_dp"/>
 
         <TextView
-                android:id="@+id/about_game_text_view"
                 android:text="@string/game_rules"
                 style="@style/SimpleText"
                 android:textColor="@color/black"

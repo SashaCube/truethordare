@@ -9,13 +9,10 @@
     <string name="delete_player_cancel_label">Скасувати</string>
     <string name="delete_player_submit_label">Видалити</string>
     <string name="max_amount_of_player">Максимальна кількість гравців 10</string>
-    <string name="default_player_name">Гравець</string>
     <string name="truth_or_dire">Правда чи дія?</string>
     <string name="player_choose">%1$s, вибір за тобою</string>
     <string name="action">Дія</string>
     <string name="truth">Правда</string>
-    <string name="action_for">Дія для %1$s</string>
-    <string name="truth_for">Правда для %1$s</string>
     <string name="done">Готово</string>
     <string name="add_one_player_to_start">Щоб почати, додайте хоча б одного гравця</string>
     <string name="about_game_label">Про гру</string>

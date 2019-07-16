@@ -1,10 +1,12 @@
 package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit
 
+import android.app.Activity
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.ImageView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.adapter.PlayersAdapter
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog.AddPlayerDialog
@@ -14,21 +16,23 @@ import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.GameDatabase
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Player
 import org.jetbrains.anko.*
 
-class EditPlayersActivity : AppCompatActivity(), EditPlayersContract.IEditPlayersView,
+class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
     PlayersAdapter.OnItemClickListener {
 
-    private val MAX_PLAYERS: Int = 10
+    companion object {
+        const val MAX_PLAYERS: Int = 10
+    }
 
     private var players: List<Player>? = null
     private lateinit var mDbWorkerThread: DbWorkerThread
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PlayersAdapter
+    private lateinit var presenter: EditPlayersContract.IEditPlayersPresenter
+
 
     override fun onItemClickListener(v: View, pos: Int) {
-        players?.get(pos)?.name?.let { displaDeletePlayerDialog(v, it) }
+        players?.get(pos)?.name?.let { displayDeletePlayerDialog(v, it) }
     }
-
-    lateinit var presenter: EditPlayersContract.IEditPlayersPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +56,9 @@ class EditPlayersActivity : AppCompatActivity(), EditPlayersContract.IEditPlayer
         adapter.setOnItemClickListener(this)
 
         recyclerView.adapter = adapter
+
+        find<ImageView>(R.id.back_button_edit).setOnClickListener { finish() }
+        find<FloatingActionButton>(R.id.add_fab).setOnClickListener { displayAddPlayerDialog() }
     }
 
     override fun showMessage(message: String) {
@@ -63,7 +70,7 @@ class EditPlayersActivity : AppCompatActivity(), EditPlayersContract.IEditPlayer
         adapter.setData(players)
     }
 
-    fun displayAddPlayerDialog(view: View) {
+    private fun displayAddPlayerDialog() {
 
         if (players?.size!! >= MAX_PLAYERS)
             alert(R.string.max_amount_of_player) {
@@ -73,7 +80,7 @@ class EditPlayersActivity : AppCompatActivity(), EditPlayersContract.IEditPlayer
 
             val addPlayerDialog by lazy {
                 contentView?.let {
-                    AddPlayerDialog(AnkoContext.create(ctx, it))
+                    AddPlayerDialog(AnkoContext.create(this, it))
                 }
             }
 
@@ -92,12 +99,12 @@ class EditPlayersActivity : AppCompatActivity(), EditPlayersContract.IEditPlayer
         }
     }
 
-    fun displaDeletePlayerDialog(view: View, playerName: String) {
+    private fun displayDeletePlayerDialog(view: View, playerName: String) {
         val deletePlayerDialog by lazy {
             contentView?.let {
                 DeletePlayerDialog(
                     AnkoContext.create(
-                        ctx,
+                        this,
                         it
                     ), playerName
                 )
@@ -117,7 +124,6 @@ class EditPlayersActivity : AppCompatActivity(), EditPlayersContract.IEditPlayer
     override fun onDestroy() {
         super.onDestroy()
         mDbWorkerThread.quit()
+        GameDatabase.destroyInstance()
     }
-
-    fun exit(view: View) = finish()
 }

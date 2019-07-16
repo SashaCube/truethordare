@@ -27,11 +27,9 @@
         />
 
         <ImageView
+                android:id="@+id/bottle_image_view"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:id="@+id/bottle_image_view"
-                android:clickable="true"
-                android:onClick="onBottleClick"
                 android:src="@drawable/ic_water"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"/>
@@ -44,32 +42,26 @@
             android:orientation="horizontal">
 
         <ImageView
-                android:layout_weight="7"
                 android:id="@+id/edit_player_button"
+                android:layout_weight="7"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/large_dimen"
                 android:src="@drawable/ic_players"
-                android:onClick="onEditPlayersClick"
-                android:clickable="true"
                 android:padding="@dimen/default_dimen"
         />
 
         <ImageView
-                android:layout_weight="7"
                 android:id="@+id/info_button"
+                android:layout_weight="7"
                 android:layout_width="wrap_content"
-                android:clickable="true"
-                android:onClick="onInfoClick"
                 android:layout_height="@dimen/large_dimen"
                 android:src="@drawable/ic_info_black_24dp"
                 android:padding="@dimen/default_dimen"
         />
 
         <ImageView
-                android:layout_weight="7"
                 android:id="@+id/exit_button"
-                android:clickable="true"
-                android:onClick="onExitClick"
+                android:layout_weight="7"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/large_dimen"
                 android:src="@drawable/ic_exit_to_app_black_24dp"
