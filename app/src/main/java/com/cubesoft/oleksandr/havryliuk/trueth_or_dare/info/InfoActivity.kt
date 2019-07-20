@@ -6,6 +6,11 @@ import android.widget.ImageView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.log
 import com.google.firebase.analytics.FirebaseAnalytics
+import android.text.method.LinkMovementMethod
+import android.widget.TextView
+import android.text.Html
+
+
 
 class InfoActivity : Activity() {
 
@@ -18,5 +23,10 @@ class InfoActivity : Activity() {
                 "From InfoActivity to MainActivity")
             finish()
         }
+
+        val policy = Html.fromHtml(getString(R.string.privacy_policy))
+        val termsOfUse = findViewById<TextView>(R.id.link_pp)
+        termsOfUse.text = policy
+        termsOfUse.movementMethod = LinkMovementMethod.getInstance()
     }
 }
