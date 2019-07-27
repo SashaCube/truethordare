@@ -100,7 +100,7 @@ class MainActivity : Activity(), Animation.AnimationListener {
                 if (document != null) {
                     val questions = document.data?.get("questions") as MutableList<String>
                     val actions = document.data?.get("actions") as MutableList<String>
-                    updateDate(actions = actions, questions = mutableListOf("d1111", "11111")) //questions)
+                    updateDate(actions = actions, questions = questions)
 
                     Log.d(TAG, "DocumentSnapshot data: $questions")
                     Log.d(TAG, "DocumentSnapshot data: $actions")
@@ -112,6 +112,7 @@ class MainActivity : Activity(), Animation.AnimationListener {
                 Log.d(TAG, "get failed with ", exception as Throwable?)
                 alert(R.string.network_error_message, R.string.network_error) {
                     positiveButton("ОК") { finish() }
+                    onCancelled { finish() }
                 }.show()
             }
 
