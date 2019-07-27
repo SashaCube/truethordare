@@ -3,8 +3,8 @@ package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit
 import android.os.Handler
 import android.util.Log
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.DbWorkerThread
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.GameDatabase
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Player
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.GameDatabase
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Player
 
 class EditPlayersPresenter(
     private val view: EditPlayersContract.IEditPlayersView,

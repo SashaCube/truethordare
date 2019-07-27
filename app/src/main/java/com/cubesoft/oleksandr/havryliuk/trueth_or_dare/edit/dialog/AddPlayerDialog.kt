@@ -2,8 +2,8 @@ package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog
 
 
 import android.content.DialogInterface
-import android.support.design.widget.TextInputEditText
-import android.support.design.widget.TextInputLayout
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import android.view.Gravity
 import android.view.View
 import android.view.ViewManager

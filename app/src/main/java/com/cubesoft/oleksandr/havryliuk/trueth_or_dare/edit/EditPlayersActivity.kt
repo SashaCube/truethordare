@@ -2,9 +2,9 @@ package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
@@ -13,8 +13,8 @@ import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog.AddPlayerDial
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog.DeletePlayerDialog
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.log
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.DbWorkerThread
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.GameDatabase
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Player
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.GameDatabase
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Player
 import com.google.firebase.analytics.FirebaseAnalytics
 import org.jetbrains.anko.*
 
@@ -27,7 +27,7 @@ class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
 
     private var players: List<Player>? = null
     private lateinit var mDbWorkerThread: DbWorkerThread
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     private lateinit var adapter: PlayersAdapter
     private lateinit var presenter: EditPlayersContract.IEditPlayersPresenter
     private lateinit var mFirebaseAnalytics: FirebaseAnalytics
@@ -55,7 +55,7 @@ class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
 
     private fun initView() {
         recyclerView = find(R.id.recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
 
         adapter = PlayersAdapter()
         adapter.setOnItemClickListener(this)

@@ -1,10 +1,10 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.dao
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.dao
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Delete
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Question
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Question
 
 @Dao
 interface QuestionDao {

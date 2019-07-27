@@ -1,6 +1,6 @@
 package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit
 
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Player
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Player
 
 interface EditPlayersContract {
     interface IEditPlayersView {

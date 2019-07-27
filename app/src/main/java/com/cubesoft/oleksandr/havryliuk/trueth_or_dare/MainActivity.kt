@@ -16,12 +16,13 @@ import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.EditPlayersActivity
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.GameView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.info.InfoActivity
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.DbWorkerThread
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.GameDatabase
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Action
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Player
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Question
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.populateActions
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.populateQuestions
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.GameDatabase
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Action
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Player
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Question
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.populateActions
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.populateQuestions
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.remote.RemoteDatabase
 import com.google.firebase.analytics.FirebaseAnalytics
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.find
@@ -119,7 +120,10 @@ class MainActivity : Activity(), Animation.AnimationListener {
             if (actions == null || actions.isEmpty()) {
                 Log.i("FetchDataFromDb_main", "no actions -> populate database")
                 mDb?.actionDao()?.let {
-                    populateActions(it, resources.getStringArray(R.array.default_actions).asList())
+                    populateActions(
+                        it,
+                        resources.getStringArray(R.array.default_actions).asList()
+                    )
                 }
                 actions = mDb?.actionDao()?.all
             }
@@ -127,7 +131,10 @@ class MainActivity : Activity(), Animation.AnimationListener {
             if (questions == null || questions.isEmpty()) {
                 Log.i("FetchDataFromDb_main", "no questions -> populate database")
                 mDb?.questionDao()?.let {
-                    populateQuestions(it, resources.getStringArray(R.array.default_questions).asList())
+                    populateQuestions(
+                        it,
+                        resources.getStringArray(R.array.default_questions).asList()
+                    )
                 }
                 questions = mDb?.questionDao()?.all
             }

@@ -1,9 +1,9 @@
 package com.cubesoft.oleksandr.havryliuk.trueth_or_dare
 
 import android.os.Bundle
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Action
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Player
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Question
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Action
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Player
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Question
 import com.google.firebase.analytics.FirebaseAnalytics
 import java.util.*
 

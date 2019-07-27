@@ -1,16 +1,16 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import android.content.Context
 import android.util.Log
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.dao.ActionDao
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.dao.PlayerDao
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.dao.QuestionDao
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Action
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Player
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.model.Question
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.dao.ActionDao
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.dao.PlayerDao
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.dao.QuestionDao
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Action
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Player
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Question
 
 
 @Database(entities = [Player::class, Action::class, Question::class], version = 1)
@@ -24,7 +24,8 @@ abstract class GameDatabase : RoomDatabase() {
         private var INSTANCE: GameDatabase? = null
 
         fun getInstance(context: Context): GameDatabase {
-            val tempInstance = INSTANCE
+            val tempInstance =
+                INSTANCE
             if (tempInstance != null) {
                 return tempInstance
             }
