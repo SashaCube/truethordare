@@ -24,6 +24,7 @@ import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.populateAct
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.populateQuestions
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.remote.RemoteDatabase
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.firestore.FirebaseFirestore
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.find
 import org.jetbrains.anko.yesButton
@@ -50,6 +51,12 @@ class MainActivity : Activity(), Animation.AnimationListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // firebase firestore test
+        val remoteDatabase = RemoteDatabase(FirebaseFirestore.getInstance())
+        val actions = resources.getStringArray(R.array.default_actions).asList()
+        val questions = resources.getStringArray(R.array.default_questions).asList()
+        remoteDatabase.uploadContent(actions = actions, questions = questions)
 
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
@@ -233,7 +240,8 @@ class MainActivity : Activity(), Animation.AnimationListener {
                 actionAlert(player)
                 mFirebaseAnalytics.log("AfterSpinChoose", "Action")
             }
-            negativeButton(R.string.truth) { truthAlert(player)
+            negativeButton(R.string.truth) {
+                truthAlert(player)
                 mFirebaseAnalytics.log("AfterSpinChoose", "Question")
             }
         }.show()
