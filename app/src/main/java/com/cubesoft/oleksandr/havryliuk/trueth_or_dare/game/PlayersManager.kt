@@ -1,4 +1,4 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -17,7 +17,8 @@ class PlayersManager {
         fun init(context: Context) {
             sPref = android.preference.PreferenceManager.getDefaultSharedPreferences(context)
             edit = sPref.edit()
-            val playersSet = getStringSet(PLAYERS)
+            val playersSet =
+                getStringSet(PLAYERS)
             if (playersSet.isNotEmpty()) {
                 players = playersSet.toMutableList()
             } else {
@@ -26,7 +27,10 @@ class PlayersManager {
         }
 
         fun save() {
-            setStringSet(PLAYERS, players.toSet())
+            setStringSet(
+                PLAYERS,
+                players.toSet()
+            )
         }
 
         fun setStringSet(key: String, value: Set<String>) {

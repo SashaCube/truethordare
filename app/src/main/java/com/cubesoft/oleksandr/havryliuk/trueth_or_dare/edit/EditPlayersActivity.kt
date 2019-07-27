@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.PlayersManager
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.PlayersManager.Companion.MAX_PLAYERS
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.PlayersManager
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.PlayersManager.Companion.MAX_PLAYERS
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.adapter.PlayersAdapter
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog.AddPlayerDialog

@@ -13,6 +13,7 @@ import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.EditPlayersActivity
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.GameView
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.PlayersManager
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.info.InfoActivity
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.firestore.DocumentReference
@@ -46,15 +47,11 @@ class MainActivity : Activity(), Animation.AnimationListener {
 
         PlayersManager.init(applicationContext)
 
-        // firebase firestore test
         mFirebaseFirestore = FirebaseFirestore.getInstance()
-
         val settings = FirebaseFirestoreSettings.Builder()
             .setPersistenceEnabled(true)
             .build()
         mFirebaseFirestore.firestoreSettings = settings
-
-        // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)

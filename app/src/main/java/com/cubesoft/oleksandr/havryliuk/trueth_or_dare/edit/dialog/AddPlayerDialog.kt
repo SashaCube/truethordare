@@ -2,14 +2,14 @@ package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog
 
 
 import android.content.DialogInterface
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import android.view.Gravity
 import android.view.View
 import android.view.ViewManager
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import org.jetbrains.anko.*
 import org.jetbrains.anko.custom.ankoView
 

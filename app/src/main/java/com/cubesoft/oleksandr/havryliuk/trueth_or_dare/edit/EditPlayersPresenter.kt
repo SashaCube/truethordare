@@ -1,7 +1,7 @@
 package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit
 
 import android.util.Log
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.PlayersManager
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.PlayersManager
 
 class EditPlayersPresenter(
     private val view: EditPlayersContract.IEditPlayersView
