@@ -3,6 +3,7 @@ package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import java.util.*
 
 class PlayersManager {
 
@@ -12,6 +13,7 @@ class PlayersManager {
         lateinit var sPref: SharedPreferences
         private lateinit var edit: SharedPreferences.Editor
         private var players: MutableList<String> = mutableListOf()
+        private var randomPlayers: MutableList<String> = mutableListOf()
         const val MAX_PLAYERS: Int = 10
 
         fun init(context: Context) {
@@ -53,6 +55,15 @@ class PlayersManager {
                 players.clear()
             }
             return players
+        }
+
+        fun getRandomPlayer(): String {
+            if (randomPlayers.isEmpty()) {
+                randomPlayers.addAll(players)
+            }
+            val nextPlayer = randomPlayers[Random().nextInt(randomPlayers.size)]
+            randomPlayers.remove(nextPlayer)
+            return nextPlayer
         }
     }
 }

@@ -82,10 +82,14 @@ class GameView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private fun drawText(
         canvas: Canvas, x: Float, y: Float, angel: Float, text: String
     ) {
+
+        val spTextSize = 14f
+        val textSize = spTextSize * resources.displayMetrics.scaledDensity
+
         val paint = Paint()
         paint.isAntiAlias = true
         paint.style = Paint.Style.FILL
-        paint.textSize = 40f
+        paint.textSize = textSize
         paint.color = Color.WHITE
         paint.strokeWidth = 3f
 

@@ -28,11 +28,13 @@ import java.util.*
 class MainActivity : Activity(), Animation.AnimationListener {
 
     private lateinit var mGameView: GameView
-    private var actions: List<String> = listOf()
-    private var questions: List<String> = listOf()
+    private var actions: MutableList<String> = mutableListOf()
+    private var questions: MutableList<String> = mutableListOf()
 
     private lateinit var mBottleImageView: ImageView
     private var lastAngle = -1
+    private lateinit var nextPlayer: String
+    private var nextIndex: Int = 0
     private lateinit var mFirebaseAnalytics: FirebaseAnalytics
     private lateinit var mFirebaseFirestore: FirebaseFirestore
 
@@ -78,7 +80,7 @@ class MainActivity : Activity(), Animation.AnimationListener {
             mFirebaseAnalytics.log("OnInfoClick")
         }
         find<ImageView>(R.id.bottle_image_view).setOnClickListener {
-            if (PlayersManager.size() == 0) {
+            if (PlayersManager.players().isEmpty()) {
                 alert(R.string.add_one_player_to_start) {
                     yesButton { }
                 }.show()
@@ -96,9 +98,9 @@ class MainActivity : Activity(), Animation.AnimationListener {
         docRef.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    val questions: List<String> = document.data?.get("questions") as List<String>
-                    val actions = document.data?.get("actions") as List<String>
-                    updateDate(actions = actions, questions = questions)
+                    val questions = document.data?.get("questions") as MutableList<String>
+                    val actions = document.data?.get("actions") as MutableList<String>
+                    updateDate(actions = actions, questions = mutableListOf("d1111", "11111")) //questions)
 
                     Log.d(TAG, "DocumentSnapshot data: $questions")
                     Log.d(TAG, "DocumentSnapshot data: $actions")
@@ -122,8 +124,8 @@ class MainActivity : Activity(), Animation.AnimationListener {
     }
 
     private fun updateDate(
-        actions: List<String>? = null,
-        questions: List<String>? = null
+        actions: MutableList<String>? = null,
+        questions: MutableList<String>? = null
     ) {
         Log.i("UpdateData_main", "update data")
         actions?.let { this.actions = actions }
@@ -157,17 +159,24 @@ class MainActivity : Activity(), Animation.AnimationListener {
     }
 
     private fun spinBottle() {
-        val angle = Random().nextInt(3600 - 360) + 90 + (360 - lastAngle.plus(90).rem(360))
-
         val pivotX = mBottleImageView.width.div(2).toFloat()
         val pivotY = mBottleImageView.height.div(2).toFloat()
 
+        nextPlayer = PlayersManager.getRandomPlayer()
+        nextIndex = PlayersManager.players().indexOf(nextPlayer)
+
+        val angle = Random().nextInt(7).times(360)
+            .plus(nextIndex.times(360.div(PlayersManager.size())))
+            .plus(Random().nextInt(360.div(PlayersManager.size()).div(2)))
+            .plus(90)
+            .plus(360)
         val animation =
             RotateAnimation(
-                (if (lastAngle == -1) 0 else lastAngle.plus(90).rem(360)).toFloat(),
+                (if (lastAngle == -1) 0 else lastAngle).toFloat(),
                 angle.toFloat(), pivotX, pivotY
             )
-        lastAngle = angle.minus(90).rem(360)
+
+        lastAngle = angle//.rem(360)
         animation.duration = 2500
         animation.fillAfter = true
 
@@ -179,9 +188,7 @@ class MainActivity : Activity(), Animation.AnimationListener {
     }
 
     override fun onAnimationEnd(animation: Animation?) {
-        val index = lastAngle.div(360.div(PlayersManager.size()))
-        val player = PlayersManager.players()[index]
-
+        val player = nextPlayer
         alert(
             getString(R.string.truth_or_dire), getString(R.string.player_choose, player)
         ) {
@@ -209,5 +216,14 @@ class MainActivity : Activity(), Animation.AnimationListener {
     override fun onDestroy() {
         super.onDestroy()
         PlayersManager.save()
+    }
+
+    fun MutableList<String>.getRandom(): String? {
+        if (size <= 1) {
+            fetchDataFromDb()
+        }
+        val str = this[Random().nextInt(size)]
+        this.remove(str)
+        return str
     }
 }
