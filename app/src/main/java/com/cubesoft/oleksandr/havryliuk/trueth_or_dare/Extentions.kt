@@ -1,17 +1,11 @@
 package com.cubesoft.oleksandr.havryliuk.trueth_or_dare
 
 import android.os.Bundle
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Action
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Player
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Question
 import com.google.firebase.analytics.FirebaseAnalytics
 import java.util.*
 
-fun List<Question>.getRandom(): Question? = if (isEmpty()) null else this[Random().nextInt(size)]
-
-fun List<Action>.getRandom(): Action? = if (isEmpty()) null else this[Random().nextInt(size)]
-
-fun List<Player>.getRandom(): Player? = if (isEmpty()) null else this[Random().nextInt(size)]
+fun List<String>.getRandom(): String? = if (isEmpty()) null else this[Random().nextInt(size)]
 
 fun List<Player>.getAllNames(): List<String> {
     val list = mutableListOf<String>()

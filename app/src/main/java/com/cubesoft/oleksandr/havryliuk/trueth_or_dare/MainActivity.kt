@@ -17,14 +17,11 @@ import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.GameView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.info.InfoActivity
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.DbWorkerThread
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.GameDatabase
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Action
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Player
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Question
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.populateActions
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.populateQuestions
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.remote.RemoteDatabase
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.find
 import org.jetbrains.anko.yesButton
@@ -40,23 +37,31 @@ class MainActivity : Activity(), Animation.AnimationListener {
 
     private lateinit var mUiHandler: Handler
 
-    private var actions: List<Action> = listOf()
-    private var questions: List<Question> = listOf()
+    private var actions: List<String> = listOf()
+    private var questions: List<String> = listOf()
     private var players: List<Player> = listOf()
 
     private lateinit var mBottleImageView: ImageView
     private var lastAngle = -1
     private lateinit var mFirebaseAnalytics: FirebaseAnalytics
+    private lateinit var mFirebaseFirestore: FirebaseFirestore
+
+
+    companion object {
+        const val TAG = "MainActivity"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // firebase firestore test
-        val remoteDatabase = RemoteDatabase(FirebaseFirestore.getInstance())
-        val actions = resources.getStringArray(R.array.default_actions).asList()
-        val questions = resources.getStringArray(R.array.default_questions).asList()
-        remoteDatabase.uploadContent(actions = actions, questions = questions)
+        mFirebaseFirestore = FirebaseFirestore.getInstance()
+
+        val settings = FirebaseFirestoreSettings.Builder()
+            .setPersistenceEnabled(true)
+            .build()
+        mFirebaseFirestore.firestoreSettings = settings
 
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
@@ -120,38 +125,28 @@ class MainActivity : Activity(), Animation.AnimationListener {
     }
 
     private fun fetchDataFromDb() {
-        val task = Runnable {
-            var actions = mDb?.actionDao()?.all
-            var questions = mDb?.questionDao()?.all
+        val docRef: DocumentReference = mFirebaseFirestore.collection("content")
+            .document("77ILQNof8dn9m8Qh551P")
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val questions: List<String> = document.data?.get("questions") as List<String>
+                    val actions = document.data?.get("actions") as List<String>
+                    updateDate(actions = actions, questions = questions)
 
-            if (actions == null || actions.isEmpty()) {
-                Log.i("FetchDataFromDb_main", "no actions -> populate database")
-                mDb?.actionDao()?.let {
-                    populateActions(
-                        it,
-                        resources.getStringArray(R.array.default_actions).asList()
-                    )
+                    Log.d(TAG, "DocumentSnapshot data: $questions")
+                    Log.d(TAG, "DocumentSnapshot data: $actions")
+                } else {
+                    Log.d(TAG, "No such document")
                 }
-                actions = mDb?.actionDao()?.all
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception as Throwable?)
+                alert(R.string.network_error_message, R.string.network_error) {
+                    positiveButton("ОК") { finish() }
+                }.show()
             }
 
-            if (questions == null || questions.isEmpty()) {
-                Log.i("FetchDataFromDb_main", "no questions -> populate database")
-                mDb?.questionDao()?.let {
-                    populateQuestions(
-                        it,
-                        resources.getStringArray(R.array.default_questions).asList()
-                    )
-                }
-                questions = mDb?.questionDao()?.all
-            }
-
-            Log.i("FetchDataFromDb_main", "update: ${actions?.size} -> actions; ${questions?.size} -> questions")
-            mUiHandler.post {
-                updateDate(actions = actions, questions = questions)
-            }
-        }
-        mDbWorkerThread.postTask(task)
     }
 
 
@@ -161,8 +156,8 @@ class MainActivity : Activity(), Animation.AnimationListener {
     }
 
     private fun updateDate(
-        actions: List<Action>? = null,
-        questions: List<Question>? = null
+        actions: List<String>? = null,
+        questions: List<String>? = null
     ) {
         Log.i("UpdateData_main", "update data")
         actions?.let { this.actions = actions }
@@ -170,7 +165,7 @@ class MainActivity : Activity(), Animation.AnimationListener {
     }
 
     private fun actionAlert(player: Player) {
-        actions.getRandom()?.action?.let {
+        actions.getRandom()?.let {
             alert(it, player.name) {
                 positiveButton(R.string.done) { }
             }.show()
@@ -179,7 +174,7 @@ class MainActivity : Activity(), Animation.AnimationListener {
     }
 
     private fun truthAlert(player: Player) {
-        questions.getRandom()?.question?.let {
+        questions.getRandom()?.let {
             alert(it, player.name) {
                 positiveButton(R.string.done) { }
             }.show()
