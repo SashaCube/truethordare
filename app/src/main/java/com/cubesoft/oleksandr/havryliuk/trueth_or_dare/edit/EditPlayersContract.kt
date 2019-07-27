@@ -1,13 +1,11 @@
 package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit
 
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Player
-
 interface EditPlayersContract {
     interface IEditPlayersView {
 
         fun showMessage(message: String)
 
-        fun setPlayers(players: List<Player>)
+        fun setPlayers(players: List<String>)
     }
 
     interface IEditPlayersPresenter {

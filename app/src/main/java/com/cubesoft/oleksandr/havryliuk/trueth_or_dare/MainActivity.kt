@@ -3,7 +3,6 @@ package com.cubesoft.oleksandr.havryliuk.trueth_or_dare
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -15,9 +14,6 @@ import android.widget.ImageView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.EditPlayersActivity
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.GameView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.info.InfoActivity
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.DbWorkerThread
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.GameDatabase
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Player
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -30,16 +26,9 @@ import java.util.*
 
 class MainActivity : Activity(), Animation.AnimationListener {
 
-    private var mDb: GameDatabase? = null
-
     private lateinit var mGameView: GameView
-    private lateinit var mDbWorkerThread: DbWorkerThread
-
-    private lateinit var mUiHandler: Handler
-
     private var actions: List<String> = listOf()
     private var questions: List<String> = listOf()
-    private var players: List<Player> = listOf()
 
     private lateinit var mBottleImageView: ImageView
     private var lastAngle = -1
@@ -55,6 +44,8 @@ class MainActivity : Activity(), Animation.AnimationListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        PlayersManager.init(applicationContext)
+
         // firebase firestore test
         mFirebaseFirestore = FirebaseFirestore.getInstance()
 
@@ -67,12 +58,6 @@ class MainActivity : Activity(), Animation.AnimationListener {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-
-        mUiHandler = Handler()
-        mDbWorkerThread = DbWorkerThread("dbWorkerThread_main")
-        mDbWorkerThread.start()
-
-        mDb = GameDatabase.getInstance(this)
 
         initView()
 
@@ -96,7 +81,7 @@ class MainActivity : Activity(), Animation.AnimationListener {
             mFirebaseAnalytics.log("OnInfoClick")
         }
         find<ImageView>(R.id.bottle_image_view).setOnClickListener {
-            if (players.isEmpty()) {
+            if (PlayersManager.size() == 0) {
                 alert(R.string.add_one_player_to_start) {
                     yesButton { }
                 }.show()
@@ -106,22 +91,6 @@ class MainActivity : Activity(), Animation.AnimationListener {
                 mFirebaseAnalytics.log("OnBottleClick", "Spin bottle")
             }
         }
-    }
-
-    private fun fetchPlayersFromDb() {
-        val task = Runnable {
-            val players = mDb?.playerDao()?.all
-            mUiHandler.post {
-                if (players == null || players.isEmpty()) {
-                    Log.i("FetchPlayersFromDb_main", "not players")
-                } else {
-                    Log.i("FetchPlayersFromDb_main", "fetch and update ${players.size} players")
-                    players.let { this.players = players }
-                    bindDataWithUI()
-                }
-            }
-        }
-        mDbWorkerThread.postTask(task)
     }
 
     private fun fetchDataFromDb() {
@@ -150,9 +119,9 @@ class MainActivity : Activity(), Animation.AnimationListener {
     }
 
 
-    private fun bindDataWithUI() {
-        Log.i("BindData_main", "bind players(${players.size}) to view")
-        mGameView.setPlayers(players.getAllNames())
+    private fun bindPlayersWithUI() {
+        Log.i("BindData_main", "bind players(${PlayersManager.size()}) to view")
+        mGameView.setPlayers(PlayersManager.players())
     }
 
     private fun updateDate(
@@ -164,18 +133,18 @@ class MainActivity : Activity(), Animation.AnimationListener {
         questions?.let { this.questions = questions }
     }
 
-    private fun actionAlert(player: Player) {
+    private fun actionAlert(player: String) {
         actions.getRandom()?.let {
-            alert(it, player.name) {
+            alert(it, player) {
                 positiveButton(R.string.done) { }
             }.show()
             mFirebaseAnalytics.log("ShowAction", "action: $it")
         }
     }
 
-    private fun truthAlert(player: Player) {
+    private fun truthAlert(player: String) {
         questions.getRandom()?.let {
-            alert(it, player.name) {
+            alert(it, player) {
                 positiveButton(R.string.done) { }
             }.show()
             mFirebaseAnalytics.log("ShowQuestion", "question: $it")
@@ -209,27 +178,15 @@ class MainActivity : Activity(), Animation.AnimationListener {
         mBottleImageView.startAnimation(animation)
     }
 
-    private fun resetBottle() {
-        val pivotX = mBottleImageView.width.div(2).toFloat()
-        val pivotY = mBottleImageView.height.div(2).toFloat()
-
-        val animation = RotateAnimation((if (lastAngle == -1) 0 else lastAngle).toFloat(), 0f, pivotX, pivotY)
-        lastAngle = -1
-        animation.duration = 2000
-        animation.fillAfter = true
-
-        mBottleImageView.startAnimation(animation)
-    }
-
     override fun onAnimationRepeat(animation: Animation?) {
     }
 
     override fun onAnimationEnd(animation: Animation?) {
-        val index = lastAngle.div(360.div(players.size))
-        val player = players[index]
+        val index = lastAngle.div(360.div(PlayersManager.size()))
+        val player = PlayersManager.players()[index]
 
         alert(
-            getString(R.string.truth_or_dire), getString(R.string.player_choose, player.name)
+            getString(R.string.truth_or_dire), getString(R.string.player_choose, player)
         ) {
             positiveButton(R.string.action) {
                 actionAlert(player)
@@ -249,12 +206,11 @@ class MainActivity : Activity(), Animation.AnimationListener {
     override fun onStart() {
         super.onStart()
         appearAnimation()
-        fetchPlayersFromDb()
+        bindPlayersWithUI()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mDbWorkerThread.quit()
-        GameDatabase.destroyInstance()
+        PlayersManager.save()
     }
 }

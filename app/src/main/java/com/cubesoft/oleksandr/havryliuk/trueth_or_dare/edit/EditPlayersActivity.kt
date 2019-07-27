@@ -2,39 +2,31 @@ package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit
 
 import android.app.Activity
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.PlayersManager
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.PlayersManager.Companion.MAX_PLAYERS
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.adapter.PlayersAdapter
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog.AddPlayerDialog
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog.DeletePlayerDialog
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.log
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.DbWorkerThread
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.GameDatabase
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.storage.local.model.Player
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.analytics.FirebaseAnalytics
 import org.jetbrains.anko.*
 
 class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
     PlayersAdapter.OnItemClickListener {
 
-    companion object {
-        const val MAX_PLAYERS: Int = 10
-    }
-
-    private var players: List<Player>? = null
-    private lateinit var mDbWorkerThread: DbWorkerThread
-    private lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
+    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PlayersAdapter
     private lateinit var presenter: EditPlayersContract.IEditPlayersPresenter
     private lateinit var mFirebaseAnalytics: FirebaseAnalytics
 
 
     override fun onItemClickListener(v: View, pos: Int) {
-        players?.get(pos)?.name?.let { displayDeletePlayerDialog(v, it) }
+        displayDeletePlayerDialog(v, PlayersManager.players()[pos])
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,14 +35,8 @@ class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        mDbWorkerThread = DbWorkerThread("dbWorkerThread_edit")
-        mDbWorkerThread.start()
-
         initView()
-        presenter = EditPlayersPresenter(
-            this, GameDatabase.getInstance(this),
-            mDbWorkerThread
-        )
+        presenter = EditPlayersPresenter(this)
     }
 
     private fun initView() {
@@ -73,14 +59,13 @@ class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
         toast(message)
     }
 
-    override fun setPlayers(players: List<Player>) {
-        this.players = players
+    override fun setPlayers(players: List<String>) {
         adapter.setData(players)
     }
 
     private fun displayAddPlayerDialog() {
 
-        if (players?.size!! >= MAX_PLAYERS) {
+        if (PlayersManager.size() >= MAX_PLAYERS) {
             alert(R.string.max_amount_of_player) {
                 yesButton { }
             }.show()
@@ -132,11 +117,5 @@ class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
             deletePlayerDialog!!.dialog.dismiss()
             mFirebaseAnalytics.log("OnDeletePlayerClick", "dismiss")
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mDbWorkerThread.quit()
-        GameDatabase.destroyInstance()
     }
 }
