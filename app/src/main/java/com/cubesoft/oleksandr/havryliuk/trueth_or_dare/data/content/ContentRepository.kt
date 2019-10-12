@@ -6,8 +6,9 @@ import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.util.*
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
+import javax.inject.Inject
 
-class ContentRepository : ContentDataSource {
+class ContentRepository @Inject constructor() : IContentRepository {
 
     private val firestore by lazy { FirebaseFirestore.getInstance() }
 

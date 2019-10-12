@@ -2,7 +2,7 @@ package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.content
 
 import androidx.lifecycle.LiveData
 
-interface ContentDataSource {
+interface IContentRepository {
 
     fun getQuestions(): LiveData<List<String>>
 

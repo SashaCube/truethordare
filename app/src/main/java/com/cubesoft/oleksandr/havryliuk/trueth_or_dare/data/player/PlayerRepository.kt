@@ -3,8 +3,9 @@ package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.player
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.util.PLAYERS
+import javax.inject.Inject
 
-class PlayerRepository(context: Context) : PlayerDataStorage {
+class PlayerRepository @Inject constructor(context: Context) : IPlayerRepository {
 
     private var players: MutableLiveData<List<String>>
 

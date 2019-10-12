@@ -2,7 +2,7 @@ package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.player
 
 import androidx.lifecycle.LiveData
 
-interface PlayerDataStorage {
+interface IPlayerRepository {
 
     fun getPlayers(): LiveData<List<String>>
 
