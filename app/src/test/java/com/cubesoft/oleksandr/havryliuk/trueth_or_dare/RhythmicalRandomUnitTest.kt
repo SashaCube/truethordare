@@ -12,7 +12,7 @@ import org.junit.Test
  */
 class RhythmicalRandomUnitTest {
 
-    fun getSomeRhythmicalRandomizer(): RhythmicalRandom {
+    private fun getSomeRhythmicalRandomizer(): RhythmicalRandom {
         val randomizer = RhythmicalRandom()
         val basisValue = 9
 

@@ -26,13 +26,15 @@ class GameViewModelTest {
     lateinit var contentRepository: ContentRepository
     lateinit var playerRepository: PlayerRepository
     lateinit var lifecycle: LifecycleRegistry
+
     @Before
     fun setUp() {
         lifecycle = LifecycleRegistry(mock(LifecycleOwner::class.java))
         lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
 
         contentRepository = ContentRepository()
-        playerRepository = PlayerRepository(InstrumentationRegistry.getInstrumentation().targetContext)
+        playerRepository =
+            PlayerRepository(InstrumentationRegistry.getInstrumentation().targetContext)
         gameViewModel = GameViewModel(playerRepository, contentRepository)
     }
 

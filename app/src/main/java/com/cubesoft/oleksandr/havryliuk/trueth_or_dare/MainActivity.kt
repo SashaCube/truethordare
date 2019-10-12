@@ -19,6 +19,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.find
 import org.jetbrains.anko.yesButton
@@ -38,48 +39,51 @@ class MainActivity : Activity(), Animation.AnimationListener {
     private lateinit var mFirebaseAnalytics: FirebaseAnalytics
     private lateinit var mFirebaseFirestore: FirebaseFirestore
 
-
-    companion object {
-        const val TAG = "MainActivity"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         PlayersManager.init(applicationContext)
+        initFirebase()
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        initView()
+        fetchDataFromDb()
+    }
 
+    private fun initFirebase() {
+        initFirestore()
+        initAnalytics()
+    }
+
+    private fun initAnalytics() {
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+    }
+
+    private fun initFirestore() {
         mFirebaseFirestore = FirebaseFirestore.getInstance()
         val settings = FirebaseFirestoreSettings.Builder()
             .setPersistenceEnabled(true)
             .build()
         mFirebaseFirestore.firestoreSettings = settings
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-
-        initView()
-
-        fetchDataFromDb()
     }
 
     private fun initView() {
         mGameView = find(R.id.game_view)
         mBottleImageView = find(R.id.bottle_image_view)
 
-        find<ImageView>(R.id.exit_button).setOnClickListener {
+        exit_button.setOnClickListener {
             mFirebaseAnalytics.log("OnExitClick")
             finish()
         }
-        find<ImageView>(R.id.edit_player_button).setOnClickListener {
+        edit_player_button.setOnClickListener {
             startActivity(Intent(this, EditPlayersActivity::class.java))
             mFirebaseAnalytics.log("OnEditPlayerClick")
         }
-        find<ImageView>(R.id.info_button).setOnClickListener {
+        info_button.setOnClickListener {
             startActivity(Intent(this, InfoActivity::class.java))
             mFirebaseAnalytics.log("OnInfoClick")
         }
-        find<ImageView>(R.id.bottle_image_view).setOnClickListener {
+        bottle_image_view.setOnClickListener {
             if (PlayersManager.players().isEmpty()) {
                 alert(R.string.add_one_player_to_start) {
                     yesButton { }
@@ -219,12 +223,16 @@ class MainActivity : Activity(), Animation.AnimationListener {
         PlayersManager.save()
     }
 
-    fun MutableList<String>.getRandom(): String? {
+    private fun MutableList<String>.getRandom(): String? {
         if (size <= 1) {
             fetchDataFromDb()
         }
         val str = this[Random().nextInt(size)]
         this.remove(str)
         return str
+    }
+
+    companion object {
+        const val TAG = "MainActivity"
     }
 }
