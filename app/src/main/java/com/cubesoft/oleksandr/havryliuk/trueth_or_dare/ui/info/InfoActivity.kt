@@ -1,4 +1,4 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.info
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.info
 
 import android.app.Activity
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.text.method.LinkMovementMethod
 import android.widget.ImageView
 import android.widget.TextView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.log
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.util.log
 import com.google.firebase.analytics.FirebaseAnalytics
 
 

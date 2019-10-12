@@ -1,4 +1,4 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.util
 
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics

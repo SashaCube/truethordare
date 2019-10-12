@@ -1,4 +1,4 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.players
 
 import android.app.Activity
 import android.os.Bundle
@@ -8,15 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.PlayersManager
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.PlayersManager.Companion.MAX_PLAYERS
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.adapter.PlayersAdapter
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog.AddPlayerDialog
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.dialog.DeletePlayerDialog
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.log
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.players.adapter.PlayersAdapter
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.players.dialog.AddPlayerDialog
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.players.dialog.DeletePlayerDialog
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.util.log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.analytics.FirebaseAnalytics
 import org.jetbrains.anko.*
 
-class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
+class EditPlayersActivity : Activity(),
+    EditPlayersContract.IEditPlayersView,
     PlayersAdapter.OnItemClickListener {
 
     private lateinit var recyclerView: RecyclerView
@@ -36,14 +37,16 @@ class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         initView()
-        presenter = EditPlayersPresenter(this)
+        presenter =
+            EditPlayersPresenter(this)
     }
 
     private fun initView() {
         recyclerView = find(R.id.recycler_view)
         recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
 
-        adapter = PlayersAdapter()
+        adapter =
+            PlayersAdapter()
         adapter.setOnItemClickListener(this)
 
         recyclerView.adapter = adapter
@@ -74,7 +77,9 @@ class EditPlayersActivity : Activity(), EditPlayersContract.IEditPlayersView,
 
             val addPlayerDialog by lazy {
                 contentView?.let {
-                    AddPlayerDialog(AnkoContext.create(this, it))
+                    AddPlayerDialog(
+                        AnkoContext.create(this, it)
+                    )
                 }
             }
 

@@ -1,4 +1,4 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.game
 
 interface Game {
 

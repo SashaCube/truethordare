@@ -2,7 +2,7 @@ package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.player
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.PLAYERS
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.util.PLAYERS
 
 class PlayerRepository(context: Context) : PlayerDataStorage {
 

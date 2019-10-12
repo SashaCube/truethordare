@@ -21,6 +21,6 @@ class SharedPreferenceHelper {
         }
 
         fun getStringList(key: String): List<String> =
-            sPref.getStringSet(key, mutableSetOf()).toList()
+            sPref.getStringSet(key, mutableSetOf())!!.toList()
     }
 }

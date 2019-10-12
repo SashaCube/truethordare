@@ -1,4 +1,4 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.game
 
 import android.app.Activity
 import android.content.Intent
@@ -11,10 +11,12 @@ import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.EditPlayersActivity
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.players.EditPlayersActivity
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.GameView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.PlayersManager
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.info.InfoActivity
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.info.InfoActivity
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.util.log
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -114,7 +116,10 @@ class MainActivity : Activity(), Animation.AnimationListener {
             }
             .addOnFailureListener { exception ->
                 Log.d(TAG, "get failed with ", exception as Throwable?)
-                alert(R.string.network_error_message, R.string.network_error) {
+                alert(
+                    R.string.network_error_message,
+                    R.string.network_error
+                ) {
                     positiveButton("ОК") { finish() }
                     onCancelled { finish() }
                 }.show()
@@ -195,7 +200,8 @@ class MainActivity : Activity(), Animation.AnimationListener {
     override fun onAnimationEnd(animation: Animation?) {
         val player = nextPlayer
         alert(
-            getString(R.string.truth_or_dire), getString(R.string.player_choose, player)
+            getString(R.string.truth_or_dire), getString(
+                R.string.player_choose, player)
         ) {
             positiveButton(R.string.action) {
                 actionAlert(player)

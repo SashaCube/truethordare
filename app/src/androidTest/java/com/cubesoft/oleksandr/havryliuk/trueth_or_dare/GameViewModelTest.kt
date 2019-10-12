@@ -7,6 +7,8 @@ import androidx.lifecycle.LifecycleRegistry
 import androidx.test.platform.app.InstrumentationRegistry
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.content.ContentRepository
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.player.PlayerRepository
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.game.GameViewModel
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.util.STATE_EMPTY
 import junit.framework.Assert.assertEquals
 import org.junit.After
 import org.junit.Before
@@ -35,7 +37,10 @@ class GameViewModelTest {
         contentRepository = ContentRepository()
         playerRepository =
             PlayerRepository(InstrumentationRegistry.getInstrumentation().targetContext)
-        gameViewModel = GameViewModel(playerRepository, contentRepository)
+        gameViewModel = GameViewModel(
+            playerRepository,
+            contentRepository
+        )
     }
 
     @Test
@@ -49,7 +54,8 @@ class GameViewModelTest {
 
     @Test
     fun observe_state() {
-        gameViewModel.repositoryState.value = STATE_EMPTY
+        gameViewModel.repositoryState.value =
+            STATE_EMPTY
         gameViewModel.repositoryState.observe({ lifecycle }) {
             assertEquals(STATE_EMPTY, it)
         }

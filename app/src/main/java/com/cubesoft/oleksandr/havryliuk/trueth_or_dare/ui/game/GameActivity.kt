@@ -1,11 +1,15 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.game
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.info.InfoActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
-class GameActivity : AppCompatActivity(), Game.View, Navigation.Navigator {
+class GameActivity : AppCompatActivity(), Game.View,
+    Navigation.Navigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,11 +58,13 @@ class GameActivity : AppCompatActivity(), Game.View, Navigation.Navigator {
     }
 
     override fun openInfoActivity() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+        startActivity(Intent(this, InfoActivity::class.java))
+        //mFirebaseAnalytics.log("OnInfoClick")
+        }
 
     override fun openEditPlayerActivity() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        startActivity(Intent(this, InfoActivity::class.java))
+        //mFirebaseAnalytics.log("OnInfoClick")
     }
 
     override fun exit() {

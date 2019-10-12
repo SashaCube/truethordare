@@ -2,7 +2,7 @@ package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.content
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.*
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.util.*
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
@@ -36,7 +36,9 @@ class ContentRepository : ContentDataSource {
 
     override fun getState() = state
 
-    private fun getContentReference() = firestore.collection(CONTENT).document(DOCUMENT_ID)
+    private fun getContentReference() = firestore.collection(CONTENT).document(
+        DOCUMENT_ID
+    )
 
     private fun initActions(document: DocumentSnapshot) {
         actions.value = document.data?.get(ACTIONS) as List<String>

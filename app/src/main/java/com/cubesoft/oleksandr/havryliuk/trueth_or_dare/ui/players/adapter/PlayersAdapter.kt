@@ -1,4 +1,4 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.edit.adapter
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.players.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +17,9 @@ class PlayersAdapter : RecyclerView.Adapter<PlayersAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.player_item, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(
+            view
+        )
     }
 
     override fun getItemCount(): Int = players?.size ?: 0

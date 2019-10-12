@@ -1,11 +1,12 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.game
 
 import androidx.lifecycle.ViewModel
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.content.ContentRepository
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.player.PlayerRepository
 
 class GameViewModel(playerRepository: PlayerRepository, contentRepository: ContentRepository) : ViewModel(),
-    Game.Controller, Navigation.Controller {
+    Game.Controller,
+    Navigation.Controller {
 
     val players = playerRepository.getPlayers()
     val repositoryState = contentRepository.getState()

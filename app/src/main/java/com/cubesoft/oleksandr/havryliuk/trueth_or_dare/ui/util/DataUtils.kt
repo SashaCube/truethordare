@@ -1,4 +1,4 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.util
 
 const val CONTENT = "content"
 const val DOCUMENT_ID = "77ILQNof8dn9m8Qh551P"
