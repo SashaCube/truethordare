@@ -19,7 +19,7 @@
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
         <activity
-                android:name=".ui.game.MainActivity"
+                android:name=".ui.game.MainnActivity"
                 android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".ui.players.EditPlayersActivity"
+                android:name=".ui.player.EditPlayersActivity"
                 android:screenOrientation="portrait" />
         <activity
                 android:name=".ui.info.InfoActivity"

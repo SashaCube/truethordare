@@ -12,7 +12,7 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.players.EditPlayersActivity
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.player.EditPlayersActivity
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.GameView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.PlayersManager
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.info.InfoActivity

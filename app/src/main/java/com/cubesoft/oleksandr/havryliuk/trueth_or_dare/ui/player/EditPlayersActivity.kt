@@ -1,4 +1,4 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.players
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.player
 
 import android.app.Activity
 import android.os.Bundle
@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.PlayersManager
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.PlayersManager.Companion.MAX_PLAYERS
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.players.adapter.PlayersAdapter
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.players.dialog.AddPlayerDialog
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.players.dialog.DeletePlayerDialog
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.player.adapter.PlayersAdapter
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.player.dialog.AddPlayerDialog
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.player.dialog.DeletePlayerDialog
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.util.log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.analytics.FirebaseAnalytics

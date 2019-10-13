@@ -5,8 +5,7 @@ import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.content.ContentRepos
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.player.PlayerRepository
 
 class GameViewModel(playerRepository: PlayerRepository, contentRepository: ContentRepository) : ViewModel(),
-    Game.Controller,
-    Navigation.Controller {
+    Game.Controller{
 
     val players = playerRepository.getPlayers()
     val repositoryState = contentRepository.getState()
@@ -54,18 +53,6 @@ class GameViewModel(playerRepository: PlayerRepository, contentRepository: Conte
     }
 
     override fun onStart() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun OnInfo() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun OnEditPlayerClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun OnExiClick() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

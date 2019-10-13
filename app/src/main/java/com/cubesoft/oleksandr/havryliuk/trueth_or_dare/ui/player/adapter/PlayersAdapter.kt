@@ -1,4 +1,4 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.players.adapter
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.player.adapter
 
 import android.view.LayoutInflater
 import android.view.View

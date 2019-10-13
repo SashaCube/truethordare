@@ -1,4 +1,4 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.players.dialog
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.player.dialog
 
 import android.content.DialogInterface
 import android.view.Gravity

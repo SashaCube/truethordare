@@ -1,4 +1,4 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.players
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.player
 
 import android.util.Log
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.PlayersManager
