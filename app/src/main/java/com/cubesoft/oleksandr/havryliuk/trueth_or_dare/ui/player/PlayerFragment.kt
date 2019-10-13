@@ -5,21 +5,45 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.base.view.custom.*
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.player.adapter.PlayersAdapter
 import kotlinx.android.synthetic.main.player_fragment.*
+import org.jetbrains.anko.*
+import org.jetbrains.anko.support.v4.ctx
 
 class PlayerFragment : Fragment() {
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.player_fragment, container, false)
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private val playerAdapter by lazy { PlayersAdapter() }
 
-        player_back_btn_iv.setOnClickListener {
-            findNavController().popBackStack()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) = with(AnkoContext.create(ctx, this)) {
+        relativeLayout {
+            verticalLayout {
+                relativeLayout {
+                    backButton {
+                        setOnClickListener {
+                            findNavController().popBackStack()
+                        }
+                    }
+                    titleTextView(R.string.edit_players_label)
+                }
+                divider()
+                recycler {
+                    adapter = playerAdapter
+                }.lparams(width = matchParent)
+            }
+            addButton {
+                setOnClickListener {
+                    toast("add player")
+                }
+            }
         }
     }
 }
