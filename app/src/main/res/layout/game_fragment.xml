@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:id="@+id/main_layout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.game.MainActivity"
+        android:orientation="vertical">
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            style="@style/LabelText"
+            android:textSize="@dimen/very_large_text_size"
+            />
+
+    <RelativeLayout
+            android:layout_margin="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.GameView
+                android:id="@+id/game_view"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                />
+
+        <ImageView
+                android:id="@+id/bottle_image_view"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_water"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        <ImageView
+                android:id="@+id/game_player_btn_iv"
+                android:layout_weight="7"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/large_dimen"
+                android:src="@drawable/ic_players"
+                android:padding="@dimen/default_dimen"
+                />
+
+        <ImageView
+                android:id="@+id/game_info_btn_iv"
+                android:layout_weight="7"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/large_dimen"
+                android:src="@drawable/ic_info_black_24dp"
+                android:padding="@dimen/default_dimen"
+                />
+
+        <ImageView
+                android:id="@+id/game_exit_btn_iv"
+                android:layout_weight="7"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/large_dimen"
+                android:src="@drawable/ic_exit_to_app_black_24dp"
+                android:padding="@dimen/default_dimen"
+                />
+
+    </LinearLayout>
+
+</LinearLayout>
