@@ -1,0 +1,29 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/android_navigation"
+        app:startDestination="@+id/game_fragment">
+
+    <fragment
+            android:id="@+id/game_fragment"
+            android:name="com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.game.GameFragment"
+            tools:layout="@layout/game_fragment">
+
+        <action
+                android:id="@+id/action_player_fragment"
+                app:destination="@id/player_fragment" />
+        <action
+                android:id="@+id/action_info_fragment"
+                app:destination="@id/info_fragment" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/player_fragment"
+            android:name="com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.player.PlayerFragment"
+            tools:layout="@layout/player_fragment" />
+
+    <fragment
+            android:id="@+id/info_fragment"
+            android:name="com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.info.InfoFragment"
+            tools:layout="@layout/info_fragment" />
+</navigation>
