@@ -12,10 +12,8 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.player.EditPlayersActivity
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.GameView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.game.PlayersManager
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.info.InfoActivity
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.util.log
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.firestore.DocumentReference
@@ -78,11 +76,10 @@ class MainActivity : Activity(), Animation.AnimationListener {
             finish()
         }
         edit_player_button.setOnClickListener {
-            startActivity(Intent(this, EditPlayersActivity::class.java))
             mFirebaseAnalytics.log("OnEditPlayerClick")
         }
         info_button.setOnClickListener {
-            startActivity(Intent(this, InfoActivity::class.java))
+            //            startActivity(Intent(this, InfoActivity::class.java))
             mFirebaseAnalytics.log("OnInfoClick")
         }
         bottle_image_view.setOnClickListener {

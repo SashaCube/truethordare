@@ -4,6 +4,7 @@ import android.graphics.Color.parseColor
 
 object Color {
     val PRIMARY = parseColor("#006BB1")
+    val ACCENT = parseColor("#006BB1")
     val BLACK = parseColor("#000000")
     val WHITE = parseColor("#FFFFFF")
 }

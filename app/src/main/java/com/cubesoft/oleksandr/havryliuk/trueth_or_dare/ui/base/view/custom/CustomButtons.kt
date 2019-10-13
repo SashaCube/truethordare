@@ -1,6 +1,7 @@
 package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.base.view.custom
 
 import android.widget.ImageView
+import android.widget.TextView
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.base.view.Color
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.base.view.Dimen
@@ -30,4 +31,12 @@ inline fun _RelativeLayout.addButton(init: (FloatingActionButton).() -> Unit = {
         alignParentBottom()
         alignParentEnd()
     }
+}
+
+inline fun _LinearLayout.dialogButton(id: Int, crossinline onClick: () -> Unit) = Dimen.run {
+    customView<TextView> {
+        textResource = id
+        setOnClickListener { onClick() }
+        textColor = Color.ACCENT
+    }.lparams { marginEnd = dip(DEFAULT) }
 }

@@ -1,14 +1,12 @@
 package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.game
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.info.InfoActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
-class GameActivity : AppCompatActivity(), Game.View{
+class GameActivity : AppCompatActivity(), Game.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

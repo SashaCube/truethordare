@@ -11,8 +11,9 @@ import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.relativeLayout
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.verticalLayout
+import javax.inject.Inject
 
-class InfoFragment : Fragment() {
+class InfoFragment @Inject constructor() : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
