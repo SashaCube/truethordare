@@ -1,14 +1,15 @@
 package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.player
 
 import androidx.lifecycle.LiveData
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.player.model.Player
 
 interface IPlayerRepository {
 
-    fun getPlayers(): LiveData<List<String>>
+    fun getPlayers(): LiveData<List<Player>>
 
-    fun addPlayer(playerName: String)
+    fun addPlayer(player: Player)
 
-    fun deletePlayer(playerName: String)
+    fun deletePlayer(player: Player)
 
     fun savePlayers()
 }
