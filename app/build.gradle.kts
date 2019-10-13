@@ -4,6 +4,7 @@ plugins {
     id(Kotlin.extensions)
     id(Kotlin.kapt)
     id(BuildPlugins.gmsGoogleServices)
+    id(BuildPlugins.Nav.saveArgsPlugin)
 }
 
 android {
@@ -53,6 +54,9 @@ dependencies {
     implementation(Libs.Anko.commons)
     implementation(Libs.Anko.appCompat)
     implementation(Libs.Anko.sdk25)
+
+    implementation(Libs.Nav.fragmentKtx)
+    implementation(Libs.Nav.uiKtx)
 
     testImplementation(TestLibs.junit4)
     androidTestImplementation(TestLibs.testRunner)

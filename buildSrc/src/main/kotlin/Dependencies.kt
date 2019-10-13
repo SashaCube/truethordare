@@ -5,12 +5,18 @@ object BuildPlugins {
     object Versions {
         const val buildToolsVersion = "3.5.1"
         const val googleService = "4.3.2"
+        const val navigationSafeArgs = "2.1.0"
     }
 
     const val androidGradlePlugin = "com.android.tools.build:gradle:${Versions.buildToolsVersion}"
     const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     const val googleServices = "com.google.gms:google-services:${Versions.googleService}"
     const val gmsGoogleServices = "com.google.gms.google-services"
+
+    object Nav {
+        const val saveArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigationSafeArgs}"
+        const val saveArgsPlugin = "androidx.navigation.safeargs.kotlin"
+    }
 }
 
 object Kotlin {
@@ -47,6 +53,8 @@ object Libs {
         const val anko = "0.10.8"
 
         const val multidex = "1.0.3"
+
+        const val nav = "2.1.0"
     }
 
     const val multidex = "com.android.support:multidex:${Versions.multidex}"
@@ -81,6 +89,11 @@ object Libs {
         const val commons = "org.jetbrains.anko:anko-commons:${Versions.anko}"
         const val appCompat = "org.jetbrains.anko:anko-appcompat-v7:${Versions.anko}"
         const val sdk25 = "org.jetbrains.anko:anko-sdk25:${Versions.anko}"
+    }
+
+    object Nav {
+        const val fragmentKtx = "androidx.navigation:navigation-fragment-ktx:${Versions.nav}"
+        const val uiKtx =  "androidx.navigation:navigation-ui-ktx:${Versions.nav}"
     }
 }
 
