@@ -11,10 +11,9 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.player.model.Player
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.presentation.PlayerViewModel
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.presentation.PlayerViewModel.Companion.DISMISS
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.presentation.PlayerViewModel.Companion.SHOW
-import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.base.view.Color
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.presentation.player.PlayerViewModel
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.presentation.player.PlayerViewModel.Companion.DISMISS
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.presentation.player.PlayerViewModel.Companion.SHOW
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.base.view.custom.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.alert

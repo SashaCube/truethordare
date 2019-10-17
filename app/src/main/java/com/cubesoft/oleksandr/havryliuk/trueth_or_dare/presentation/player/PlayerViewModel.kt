@@ -1,4 +1,4 @@
-package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.presentation
+package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.presentation.player
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,10 +10,13 @@ class PlayerViewModel @Inject constructor(
     private val playerRepository: IPlayerRepository
 ) : ViewModel(), IPlayerViewModel {
 
-    val players = playerRepository.getPlayers()
-    val addAlarmDialogState = MutableLiveData<Boolean>()
-    val deleteAlarmDialogState = MutableLiveData<Pair<Boolean, Player>>()
-    val maxUsersAlarmDialogState = MutableLiveData<Boolean>()
+    override val players = playerRepository.getPlayers()
+
+    override val addAlarmDialogState = MutableLiveData<Boolean>()
+
+    override val deleteAlarmDialogState = MutableLiveData<Pair<Boolean, Player>>()
+
+    override val maxUsersAlarmDialogState = MutableLiveData<Boolean>()
 
     override fun onDeleteClick(player: Player) {
         deleteAlarmDialogState.postValue(SHOW to player)
@@ -25,7 +28,7 @@ class PlayerViewModel @Inject constructor(
 
     override fun onDialogAddPlayerName(name: String) {
         addAlarmDialogState.postValue(DISMISS)
-        if(players.value?.size ?: 0 < MAX_COUNT_OF_PLAYERS) {
+        if (players.value?.size ?: 0 < MAX_COUNT_OF_PLAYERS) {
             playerRepository.addPlayer(Player(name))
         } else {
             maxUsersAlarmDialogState.postValue(SHOW)
