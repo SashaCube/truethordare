@@ -2,6 +2,8 @@ package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.content
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.content.model.Action
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.content.model.Question
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.util.*
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -12,9 +14,9 @@ class ContentRepository @Inject constructor() : IContentRepository {
 
     private val firestore by lazy { FirebaseFirestore.getInstance() }
 
-    private val questions = MutableLiveData<List<String>>()
-    private val actions = MutableLiveData<List<String>>()
-    private val state = MutableLiveData<String>()
+    override val questions = MutableLiveData<List<Question>>()
+    override val actions = MutableLiveData<List<Action>>()
+    override val state = MutableLiveData<String>()
 
     init {
         initFirebaseSettings()
@@ -31,23 +33,17 @@ class ContentRepository @Inject constructor() : IContentRepository {
         Log.d(TAG_CONTENT, "state: ${state.value}")
     }
 
-    override fun getQuestions() = questions
+    private fun getContentReference() = firestore.collection(CONTENT).document(DOCUMENT_ID)
 
-    override fun getActions() = actions
-
-    override fun getState() = state
-
-    private fun getContentReference() = firestore.collection(CONTENT).document(
-        DOCUMENT_ID
-    )
-
+    @Suppress("UNCHECKED_CAST")
     private fun initActions(document: DocumentSnapshot) {
-        actions.value = document.data?.get(ACTIONS) as List<String>
+        actions.value = (document.data?.get(ACTIONS) as List<String>).map { Action(it) }
         Log.d(TAG_CONTENT, "loaded $ACTIONS: $actions")
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun initQuestions(document: DocumentSnapshot) {
-        questions.value = document.data?.get(QUESTIONS) as List<String>
+        questions.value = (document.data?.get(QUESTIONS) as List<String>).map { Question(it) }
         Log.d(TAG_CONTENT, "loaded $QUESTIONS: $questions")
     }
 

@@ -5,7 +5,7 @@ import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.player.model.Player
 
 interface IPlayerRepository {
 
-    fun getPlayers(): LiveData<List<Player>>
+    val players: LiveData<List<Player>>
 
     fun addPlayer(player: Player)
 

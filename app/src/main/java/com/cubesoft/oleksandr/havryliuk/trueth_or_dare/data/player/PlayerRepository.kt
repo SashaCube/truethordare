@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class PlayerRepository @Inject constructor(context: Context) : IPlayerRepository {
 
-    private var players: MutableLiveData<List<Player>>
+    override val players: MutableLiveData<List<Player>>
 
     init {
         with(SharedPreferenceHelper) {
@@ -17,8 +17,6 @@ class PlayerRepository @Inject constructor(context: Context) : IPlayerRepository
             players.value = getStringList(PLAYERS).map { Player(it) }
         }
     }
-
-    override fun getPlayers() = players
 
     override fun addPlayer(player: Player) {
         val newPlayerList = mutableListOf<Player>()
@@ -35,6 +33,10 @@ class PlayerRepository @Inject constructor(context: Context) : IPlayerRepository
     }
 
     override fun savePlayers() {
-        players.value?.let { SharedPreferenceHelper.setStringList(PLAYERS, it.map { it.name }) }
+        players.value?.let { it ->
+            SharedPreferenceHelper.setStringList(
+                PLAYERS,
+                it.map { it.name })
+        }
     }
 }

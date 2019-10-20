@@ -1,12 +1,14 @@
 package com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.content
 
 import androidx.lifecycle.LiveData
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.content.model.Action
+import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.data.content.model.Question
 
 interface IContentRepository {
 
-    fun getQuestions(): LiveData<List<String>>
+    val questions: LiveData<List<Question>>
 
-    fun getActions(): LiveData<List<String>>
+    val actions: LiveData<List<Action>>
 
-    fun getState(): LiveData<String>
+    val state: LiveData<String>
 }
