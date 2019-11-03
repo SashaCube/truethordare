@@ -12,6 +12,7 @@ import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.R
 import com.cubesoft.oleksandr.havryliuk.trueth_or_dare.ui.base.view.custom.*
 import kotlinx.android.synthetic.main.game_fragment.*
 import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.linearLayout
 import org.jetbrains.anko.relativeLayout
 import org.jetbrains.anko.support.v4.ctx
 import org.jetbrains.anko.verticalLayout
@@ -29,6 +30,9 @@ class GameFragment @Inject constructor(): Fragment() {
                     titleTextView(R.string.app_name)
                 }
                 divider()
+                // game view
+                linearLayout{
+                }
             }
         }
     }

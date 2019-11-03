@@ -10,7 +10,7 @@ class PlayerViewModel @Inject constructor(
     private val playerRepository: IPlayerRepository
 ) : ViewModel(), IPlayerViewModel {
 
-    override val players = playerRepository.getPlayers()
+    override val players = playerRepository.players
 
     override val addAlarmDialogState = MutableLiveData<Boolean>()
 
